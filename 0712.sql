@@ -180,8 +180,8 @@ commit; -- 커밋하면 롤백 불가 ~
 -- delete가 롤백이 되는 이유는  - DML - insert, delete, update, select
 
 
--- 데이터 무결성(결점이 없음)을 위한 제약 조건
--- 무결성 (결점) = 정확성 
+-- *데이터 무결성(결점이 없음)을 위한 제약 조건
+-- 무결성 (결점) = 데이터의 정확성을 유지하는 것. = 제약 조건(5가지)를 거는 것 
 -- 1. not null
 DROP TABLE EMP02;
 
@@ -197,6 +197,7 @@ INSERT INTO EMP02 (EMPNO, ENAME, JOB, DEPTNO) VALUES (1, '홍길동','SALESMAN',
 
 select * from emp02;
 
+-- 2. unique
 DROP TABLE EMP03;
 CREATE TABLE EMP03(
     EMPNO NUMBER(4) unique, -- primary key = not null + unique
@@ -206,3 +207,13 @@ CREATE TABLE EMP03(
 );
 INSERT INTO EMP03 (EMPNO, ENAME, JOB, DEPTNO) VALUES (1, '홍길동',null, null);
 select * from emp03;
+
+-- 3. 프라이머리키(PK) = Primary Key
+DROP TABLE EMP05;
+
+CREATE TABLE EMP05(EMPNO NUMBER(4)
+    CONSTRAINT EMP05_EMPNO_PK PRIMARY KEY,
+    ENAMR VARCHAR2(10) CONSTRAINT EMP05_ENAME_NN NOT NULL,
+    JOB VARCHAR(9), DEPTNO NUMBER(2)
+    );
+    
