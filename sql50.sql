@@ -55,13 +55,12 @@ select e.ename as "employee", e.empno as "emp#", m.ename as "manager", m.empno a
 -- 26. 모든 사원의 이름,직업,부서이름,급여 및 등급을 출력하라
 select e.ename, e.job, d.dname, e.sal, s.grade from emp e, dept d, salgrade s where e.deptno=d.deptno and e.sal between s.losal and s.hisal;
 -- 27. Smith보다 늦게 입사한 사원의 이름 및 입사일을 출력하라.
-SELECT ENAME, HIREDATE
-FROM EMP
-WHERE HIREDATE>(SELECT HIREDATE
-FROM EMP
-WHERE ENAME='SMITH')
-
-
-
-
-
+select ename, hiredate
+from emp 
+where hiredate > (select hiredate from emp where ename='SMITH') -- > : 늦게 입사 ( 현재 날짜보다 큰 )
+-- 28. 자신의 관리자보다 먼저 입사한 모든 사원의 이름, 입사일, 관리자의 이름, 관리자의 입사일을 출력하되 각각 컬럼명을 Employee,EmpHiredate, Manager,MgrHiredate로 표시하여 출력하라.
+SELECT E.ENAME AS "Employee", E.HIREDATE AS "EmpHIredate",
+M.ENAME AS "Manager",
+M.HIREDATE AS "MgrHiredate"
+FROM EMP E, EMP M
+WHERE E.MGR=M.EMPNO AND E.HIREDATE<M.HIREDATE
