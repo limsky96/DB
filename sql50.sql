@@ -57,10 +57,20 @@ select e.ename, e.job, d.dname, e.sal, s.grade from emp e, dept d, salgrade s wh
 -- 27. Smith보다 늦게 입사한 사원의 이름 및 입사일을 출력하라.
 select ename, hiredate
 from emp 
-where hiredate > (select hiredate from emp where ename='SMITH') -- > : 늦게 입사 ( 현재 날짜보다 큰 )
+where hiredate > (select hiredate from emp where ename='SMITH'); -- > : 늦게 입사 ( 현재 날짜보다 큰 )
 -- 28. 자신의 관리자보다 먼저 입사한 모든 사원의 이름, 입사일, 관리자의 이름, 관리자의 입사일을 출력하되 각각 컬럼명을 Employee,EmpHiredate, Manager,MgrHiredate로 표시하여 출력하라.
-SELECT E.ENAME AS "Employee", E.HIREDATE AS "EmpHIredate",
-M.ENAME AS "Manager",
-M.HIREDATE AS "MgrHiredate"
-FROM EMP E, EMP M
-WHERE E.MGR=M.EMPNO AND E.HIREDATE<M.HIREDATE
+select e.ename as "Employee", e.hiredate as "EmpHiredate", m.ename as "Manager", m.hiredate as "MgrHiredate"
+from emp e, emp m
+where e.mgr = m.empno and e.hiredate < m.hiredate;
+-- 30. 모든 사원의 급여 최고액,최저액,총액 및 평균액을 출력하되 각 컬럼명을 Maximum, Minimum, Sum, Average로 지정하여 출력하라
+select max(sal) as "Maximum", min(sal) as "Minimum", sum(sal) as "Sum", avg(sal) as "Average" from emp;
+-- 31. 각 직업별로 급여 최저액.최고액,총액 및 평균액을 출력하라.
+select job, max(sal), min(sal), sum(sal), avg(sal) from emp group by job;
+-- 32. 직업이 동일한 사람 수를 직업과 같이 출력하라.
+select job, count(job) from emp group by job;
+-- 33. 관리자의 수를 출력하되, 관리자 번호가 중복되지 않게하라. 그리고, 컬럼명을 Number of Manager로 지정하여 출력하라.
+select count(distinct(mgr)) as "Number of Manager" from emp;
+-- 34. 최고 급여와 최저 급여의 차액을 출력하라.
+select max(sal)-min(sal) from emp;
+-- 35. 관리자 번호 및 해당 관리자에 속한 사원들의 최저 급여를 출력하라. 단, 관리자가 없는 사원 및 최저 급여가 1000 미만인 그룹은 제외시키고 급여를 기준으로 출력 결과를 내림차순으로 정렬하라.
+select mgr, min(sal) from emp where mgr is not null group by mgr having min(sal)>=1000 order by min(sal);
